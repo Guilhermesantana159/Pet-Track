@@ -1,0 +1,39 @@
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@500;600&display=swap');
+@import "../node_modules/bootstrap/dist/css/bootstrap.min.css";
+
+
+.mat-tab-label-content{
+    font-size: medium;
+    font-family: 'Open Sans', sans-serif;
+    font-weight: bolder;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+.form-control{
+    border-radius: 8px;
+    padding: 8px;
+}
+
+.p-3{
+    color: #ffffff00;
+    background-color: #ffffff00;
+}
+
+.body{
+    -webkit-tap-highlight-color: transparent;
+    background-image: image("/assets/images/background.png");
+}
+
+.btn-perfil{
+    margin-left: -35pt;
+    margin-top: 65pt;
+}
+
+body{
+    overflow-x: hidden;
+}

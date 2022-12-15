@@ -1,0 +1,204 @@
+<!-- Tela Cadastro -->
+<div class="modal modal-signin position-static d-block bg-white py-5" role="dialog" id="modalSignin">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content rounded-4 shadow">
+            <div class="modal-header p-5 pb-1 border-bottom-0">
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar" routerLink="/"></button>
+            </div>
+            <div class="mb-0 py-3 text-center">
+                <img src="/assets/images/logo.png" alt="" width="150" height="150">
+            </div>
+            <div class="modal-header p-5 pb-4 py-1 border-bottom-0">
+                <h2 class="fw-bold mb-0">Cadastre-se</h2>
+            </div>
+            <div class="modal-body p-5 pt-0">
+              <mat-stepper #stepper orientation="vertical">
+                <mat-step [stepControl]="PerfilFormGroup" errorMessage="Existem campos não preenchido ou inválidos.">
+                  <form [formGroup]="PerfilFormGroup">
+                    <ng-template matStepLabel>Dados pessoais</ng-template>
+                    <div class="row mt-2">
+                      <mat-form-field appearance="outline">
+                        <mat-label>Nome completo:</mat-label>
+                        <input matInput placeholder="Insira seu nome" formControlName="nome" maxlength="100">
+                        <mat-hint>
+                          <text-error-message  
+                          *ngIf="PerfilFormGroup.get('nome')?.errors?.['required'] && (PerfilFormGroup.get('nome')?.touched || submit)"
+                          text="Este campo é obrigatório">
+                        </text-error-message>
+                        </mat-hint>
+                      </mat-form-field>
+                    </div>
+                    <div class="row mt-2">
+                      <mat-form-field appearance="outline">
+                        <mat-label>Telefone:</mat-label>
+                        <input matInput placeholder="Insira seu telefone" formControlName="telefone" mask="(00) 00000-0000" >
+                        <mat-hint>
+                          <text-error-message  
+                          *ngIf="PerfilFormGroup.get('telefone')?.errors?.['required'] && (PerfilFormGroup.get('telefone')?.touched || submit)"
+                          text="Este campo é obrigatório">
+                          </text-error-message>
+                          <text-error-message  
+                          *ngIf="PerfilFormGroup.get('telefone')?.errors?.['minlength'] && (PerfilFormGroup.get('telefone')?.touched || submit)"
+                          text="Campo inválido">                          
+                          </text-error-message>
+                        </mat-hint>
+                      </mat-form-field>
+                    </div>
+                    <div class="row mt-2">
+                      <mat-form-field appearance="outline">
+                        <mat-label>CPF:</mat-label>
+                        <input matInput placeholder="Insira seu CPF" formControlName="cpf" mask="000.000.000-00">
+                        <mat-hint>
+                          <text-error-message  
+                          *ngIf="PerfilFormGroup.get('cpf')?.errors?.['required'] && (PerfilFormGroup.get('cpf')?.touched || submit)"
+                          text="Este campo é obrigatório">
+                        </text-error-message>
+                        <text-error-message  
+                        *ngIf="PerfilFormGroup.get('cpf')?.errors?.['minlength'] && (PerfilFormGroup.get('cpf')?.touched || submit)"
+                        text="Campo inválido">                          
+                        </text-error-message>
+                        </mat-hint>
+                      </mat-form-field>
+                    </div>
+                    <div class="row mt-2">
+                      <mat-form-field appearance="outline">
+                        <mat-label>Data de nascimento:</mat-label>
+                        <input matInput [matDatepicker]="dp3" formControlName="dataNascimento" readonly>
+                        <mat-datepicker-toggle matIconSuffix [for]="dp3"></mat-datepicker-toggle>
+                        <mat-datepicker #dp3 disabled="false"></mat-datepicker>
+                        <mat-hint>
+                          <text-error-message  
+                          *ngIf="PerfilFormGroup.get('dataNascimento')?.errors?.['required'] && (PerfilFormGroup.get('dataNascimento')?.touched || submit)"
+                          text="Este campo é obrigatório">
+                          </text-error-message>
+                          <text-error-message  
+                          *ngIf="PerfilFormGroup.get('dataNascimento')?.errors?.['minlength'] && (PerfilFormGroup.get('dataNascimento')?.touched || submit)"
+                          text="Campo inválido">                          
+                          </text-error-message>
+                        </mat-hint>
+                      </mat-form-field>
+                    </div>
+                    <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                      <button class="btn btn btn-outline-dark btn-sm" type="button" matStepperNext>Próximo</button>
+                    </div>
+                  </form>
+                </mat-step>
+                <mat-step [stepControl]="EnderecoFormGroup" optional>
+                  <form [formGroup]="EnderecoFormGroup">
+                    <ng-template matStepLabel>Endereço</ng-template>
+                    <div class="row mt-2">
+                      <mat-form-field appearance="outline">
+                        <mat-label>Cep:</mat-label>
+                        <input matInput placeholder="Insira o seu cep" formControlName="cep" mask="00000-000">
+                        <button mat-icon-button matSuffix (click)="PesquisarEndereco()" [disabled]="EnderecoFormGroup.get('cep')?.errors?.['minlength'] || EnderecoFormGroup.get('cep')?.value == '' ">
+                          <mat-icon>search</mat-icon>
+                        </button>  
+                        <mat-hint>
+                          <text-error-message  
+                          *ngIf="EnderecoFormGroup.get('cep')?.errors?.['minlength'] && (EnderecoFormGroup.get('cep')?.touched || submit)"
+                          text="Campo inválido">
+                        </text-error-message>
+                        </mat-hint>
+                      </mat-form-field>  
+                    </div>
+                    <div class="row mt-2">
+                      <mat-form-field appearance="outline">
+                        <mat-label>Cidade:</mat-label>
+                        <input matInput formControlName="cidade"readonly="true">
+                        <button mat-icon-button matSuffix disabled="true" [hidden]="EnderecoFormGroup.get('rua')?.value != ''">
+                          <mat-icon>block</mat-icon>
+                        </button> 
+                      </mat-form-field>
+                    </div>
+                    <div class="row mt-2">
+                      <mat-form-field appearance="outline">
+                        <mat-label>Bairro:</mat-label>
+                        <input matInput formControlName="bairro" readonly="true">
+                        <button mat-icon-button matSuffix disabled="true" [hidden]="EnderecoFormGroup.get('rua')?.value != ''">
+                          <mat-icon>block</mat-icon>
+                        </button>
+                      </mat-form-field>
+                    </div>
+                    <div class="row mt-2">
+                      <mat-form-field appearance="outline">
+                        <mat-label>Rua:</mat-label>
+                        <input matInput formControlName="rua" readonly="true">
+                        <button mat-icon-button matSuffix disabled="true" [hidden]="EnderecoFormGroup.get('rua')?.value != ''">
+                          <mat-icon>block</mat-icon>
+                        </button> 
+                      </mat-form-field>
+                    </div>
+                    <div class="row mt-2">
+                      <mat-form-field appearance="outline">
+                        <mat-label>Número:</mat-label>
+                        <input matInput formControlName="numero" maxlength="6" type="number" [readonly]="EnderecoFormGroup.get('rua')?.value == ''">
+                        <button mat-icon-button matSuffix disabled="true" [hidden]="EnderecoFormGroup.get('rua')?.value != ''">
+                          <mat-icon>block</mat-icon>
+                        </button> 
+                      </mat-form-field>
+                    </div>
+                    <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                      <spinner-component [hidden]="!loading"></spinner-component>
+                      <button class="btn btn btn-outline-dark btn-sm" [hidden]="loading" type="button" matStepperPrevious>Voltar</button>
+                      <button class="btn btn btn-outline-dark btn-sm" [hidden]="loading" type="button" matStepperNext>Próximo</button>
+                    </div>
+                  </form>
+                </mat-step>
+                <mat-step [stepControl]="AcessoFormGroup" errorMessage="Existem campos não preenchido ou inválidos.">
+                  <form [formGroup]="AcessoFormGroup">
+                    <ng-template matStepLabel>Dados de acesso</ng-template>
+                    <div class="row mt-2">
+                      <mat-form-field appearance="outline">
+                        <mat-label>Email:</mat-label>
+                        <input matInput placeholder="Insira seu email" formControlName="email" maxlength="50">
+                        <mat-hint>
+                          <text-error-message  
+                          *ngIf="AcessoFormGroup.get('email')?.errors?.['required'] && (AcessoFormGroup.get('email')?.touched || submit)"
+                          text="Este campo é obrigatório">
+                          </text-error-message>
+                          <text-error-message  
+                            *ngIf="AcessoFormGroup.get('email')?.errors?.['email'] && (AcessoFormGroup.get('email')?.touched || submit)"
+                            text="Campo inválido">                        
+                          </text-error-message>
+                        </mat-hint>
+                      </mat-form-field>
+                    </div>
+                    <div class="row mt-2">
+                      <mat-form-field appearance="outline">
+                        <mat-label>Senha:</mat-label>
+                        <input [type]="hide ? 'password' : 'text'" matInput placeholder="Insira sua senha" formControlName="senha" maxlength="10">
+                        <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
+                          <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+                        </button>
+                        <mat-hint>
+                          <text-error-message  
+                          *ngIf="AcessoFormGroup.get('senha')?.errors?.['required'] && (AcessoFormGroup.get('senha')?.touched || submit)"
+                          text="Este campo é obrigatório">
+                          </text-error-message>
+                          <text-error-message  
+                          *ngIf="AcessoFormGroup.get('senha')?.errors?.['invalidSenha'] && (AcessoFormGroup.get('senha')?.touched || submit) && 
+                          !AcessoFormGroup.get('senha')?.errors?.['required']"
+                          [text]="AcessoFormGroup.get('senha')?.errors?.['Motivo']">
+                          </text-error-message>
+                        </mat-hint>
+                      </mat-form-field>
+                    </div>
+                    <div class="row mt-2">
+                      <mat-checkbox formControlName="termo">
+                        <small>
+                            Li e concordo com o <a><b>termo de consentimento</b></a> e aceito os termos e condições!
+                        </small>
+                      </mat-checkbox>
+                    </div>
+                    <div class="d-grid gap-2 d-md-flex justify-content-md-end mt-5">
+                      <spinner-component [hidden]="!loading"></spinner-component>
+                      <button class="btn btn btn-outline-dark btn-sm" type="button" [hidden]="loading" matStepperPrevious>Voltar</button>
+                      <button class="btn btn btn-success btn-sm" (click)="Salvar()" [hidden]="loading" type="button" matStepperNext>Salvar</button>
+                    </div>
+                  </form>
+                </mat-step>
+              </mat-stepper>
+            </div>
+        </div>
+    </div>
+</div>
